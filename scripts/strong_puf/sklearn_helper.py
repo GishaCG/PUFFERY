@@ -90,6 +90,7 @@ def display_accuracy_by_access(x_data, y_model_data, name_order=None):
     plt.xlabel("MAP Accesses")
     plt.ylabel("Prediction Accuracy")
     plt.gca().legend()
+    plt.savefig('/content/PUFFERY/images/prediction_accuracy_plot_HCMI.png', dpi=300, bbox_inches='tight')
     plt.show()
 
 def save_data(x_data, y_model_data):
