@@ -133,18 +133,36 @@ def get_accuracy(prediction, label):
             correct+=1
     return correct/len(label)
     
+# def get_data_filenames(default_dir):
+#     inter_dir = input("Enter directory path for CRPs (Default:{}): ".format(default_dir))
+#     if not inter_dir:
+#         inter_dir = default_dir
+#         print('Using default data:', inter_dir)
+#     data_dir = 'data/{}'.format(inter_dir)    
+#     if not os.path.isdir(inter_dir):
+#         print('Directory ',inter_dir,' not found. Exiting...')
+#         sys.exit(1)
+#     bare_fnames = os.listdir(inter_dir)
+#     return ["{}/{}".format(inter_dir, fname) for fname in bare_fnames]    
 def get_data_filenames(default_dir):
     inter_dir = input("Enter directory path for CRPs (Default:{}): ".format(default_dir))
     if not inter_dir:
         inter_dir = default_dir
         print('Using default data:', inter_dir)
-    data_dir = 'data/{}'.format(inter_dir)    
+
     if not os.path.isdir(inter_dir):
-        print('Directory ',inter_dir,' not found. Exiting...')
+        print('Directory ', inter_dir, ' not found. Exiting...')
         sys.exit(1)
+
+    # Only include actual files (not directories), and optionally only CSVs
     bare_fnames = os.listdir(inter_dir)
-    return ["{}/{}".format(inter_dir, fname) for fname in bare_fnames]    
-    
+    valid_files = [
+        os.path.join(inter_dir, fname)
+        for fname in bare_fnames
+        if os.path.isfile(os.path.join(inter_dir, fname)) and fname.endswith(".csv")
+    ]
+    return valid_files
+
 def hash_value(bit_list, target_hash_size):
     """Hash the value to target size.
        This only works if both input and target size are power of 2
